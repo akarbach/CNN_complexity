@@ -26,37 +26,46 @@ def calc_power(entropy, dataset_size, design_power, fpga_frequency, calculation_
 
 
 def calc_work():
-	conv1 = 112*112*64
-	conv2 = 56*56*64
-	conv3 = 56*56*64
-	conv4 = 56*56*64
-	conv5 = 56*56*64
-	conv6 = 28*28*128
-	conv7 = 28*28*128
-	conv8 = 28*28*128
-	conv9 = 28*28*128
-	conv10 = 14*14*256
-	conv11 = 14*14*256
-	conv12 = 14*14*256
-	conv13 = 14*14*256
-	conv14 = 7*7*512
-	conv15 = 7*7*512
-	conv16 = 7*7*512
-	conv17 = 7*7*512
+    conv1 = 112*112*64
+    conv2 = 56*56*64
+    conv3 = 56*56*64
+    conv4 = 56*56*64
+    conv5 = 56*56*64
+    conv6 = 28*28*128
+    conv7 = 28*28*128
+    conv8 = 28*28*128
+    conv9 = 28*28*128
+    conv10 = 14*14*256
+    conv11 = 14*14*256
+    conv12 = 14*14*256
+    conv13 = 14*14*256
+    conv14 = 7*7*512
+    conv15 = 7*7*512
+    conv16 = 7*7*512
+    conv17 = 7*7*512
 
-	net = [conv1, conv2, conv3, conv4, conv5, conv6, conv7, conv8, conv9, conv10, conv11, conv12, conv13, conv14, conv15, conv16, conv17]
+    net = [conv1, conv2, conv3, conv4, conv5, conv6, conv7, conv8, conv9, conv10, conv11, conv12, conv13, conv14, conv15, conv16, conv17]
+    with_pca = [2.93009973, 3.26942563, 4.71617413, 4.68005085, 4.99061775, 4.67011929, 5.06910992, 5.4064126, 5.14067745, 4.36108351, 4.96772718, 4.33248615, 4.20540428, 3.50458884, 4.25482035, 3.41283941, 4.10771704]
 
+    no_pca = [5.29655313, 5.76509619, 5.82527733, 5.99830198, 6.03460979, 6.62967873, 6.00120449, 6.42488289, 5.89619446, 6.3854661, 6.25196838, 6.38777876, 5.6490097, 6.56081724, 6.28340054, 6.43172026, 5.79630089]
 
-	sum = 0
-	for conv in net:
-		sum += conv
+    sum = 0
+    for conv in net:
+        sum += conv
 
-	for conv in net:
-		print("{:.3E}".format(1.0 * conv / sum))
+    for conv in net:
+        print("{:3.2f}%".format(100.0 * conv / sum))
 
+    avrg_entropy_no_pce = 0;
+    avrg_entropy_with_pce = 0;
 
+    for i in range(17):
+        avrg_entropy_with_pce += (1.0 * with_pca[i] * net[i] / sum)
+        avrg_entropy_no_pce += (1.0 * no_pca[i] * net[i] / sum)
 
+    print("\n\n")
+    print("Avarege entropy with PCA: {}\nAvarege entropy with PCA: {}".format(avrg_entropy_with_pce, avrg_entropy_no_pce))
 
-calc_power(*list(map(float,argv[1:])))
+calc_power(*list(map(float, argv[1:])))
 
 calc_work()
