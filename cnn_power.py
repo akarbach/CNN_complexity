@@ -53,8 +53,8 @@ def calc_work():
     for conv in net:
         sum += conv
 
-    for conv in net:
-        print("{:3.2f}%".format(100.0 * conv / sum))
+    # for conv in net:
+    #     print("{:3.2f}%".format(100.0 * conv / sum))
 
     avrg_entropy_no_pce = 0;
     avrg_entropy_with_pce = 0;
@@ -64,7 +64,7 @@ def calc_work():
         avrg_entropy_no_pce += (1.0 * no_pca[i] * net[i] / sum)
 
     print("\n\n")
-    print("Avarege entropy with PCA: {}\nAvarege entropy with PCA: {}".format(avrg_entropy_with_pce, avrg_entropy_no_pce))
+    print("Avarege entropy with PCA: {}\nAvarege entropy without PCA: {}".format(avrg_entropy_with_pce, avrg_entropy_no_pce))
 
 calc_power(*list(map(float, argv[1:])))
 
