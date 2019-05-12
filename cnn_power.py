@@ -2,7 +2,7 @@
 
 from sys import argv
 
-def calc_power(entropy, dataset_size, design_power, fpga_frequency, calculation_clocks):
+def calc_power(entropy_in, entropy_out, input_feature_size, output_feature_size, design_power, fpga_frequency, calculation_clocks):
     
     ddr_datarate = 1066e6
     ddr_power_write_per_16bit = 180e-3 * 1.5
@@ -13,13 +13,15 @@ def calc_power(entropy, dataset_size, design_power, fpga_frequency, calculation_
     if entropy > 8:
         print("Entropy is bigger then 8. compression is useless!!!")
 
-    bits_to_transfer = (1.0 * dataset_size) * entropy
+    bits_to_write = (1.0 * output_feature_size) * entropy_out
+    bits_to_read = (1.0 * input_feature_size) * entropy_in
     design_energy = (1.0 * design_power) / fpga_frequency * calculation_clocks
     transfer_read_energy = (1.0 * ddr_power_read_per_16bit ) * (1.0 * bits_to_transfer / 16) * 4 / ddr_datarate
     transfer_write_energy = (1.0 * ddr_power_write_per_16bit ) * (1.0 * bits_to_transfer / 16) * 4 / ddr_datarate
     print("")
     print("Total energy: {:.3E}[J]".format((design_energy + transfer_read_energy + transfer_write_energy)))
     print("Design energy: {:.3E}[J]".format(design_energy))
+    print("Transfer energy: {:.3E}[J]".format(transfer_write_energy + transfer_read_energy))
     print("Transfer read energy {:.3E}[J], Transfer write energy {:.3E}[J]".format(transfer_read_energy, transfer_write_energy))
     # print("Total energy: " +str(design_energy + transfer_energy)+"[J]. Design energy: " + str(design_energy) +"[J], Transfer energy " + str(transfer_energy) + "[J]")
 
