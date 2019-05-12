@@ -10,8 +10,7 @@ def calc_power(entropy_in, entropy_out, input_feature_size, output_feature_size,
 
 
 
-    if entropy > 8:
-        print("Entropy is bigger then 8. compression is useless!!!")
+
 
     bits_to_write = (1.0 * output_feature_size) * entropy_out
     bits_to_read = (1.0 * input_feature_size) * entropy_in
