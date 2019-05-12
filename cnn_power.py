@@ -15,8 +15,8 @@ def calc_power(entropy_in, entropy_out, input_feature_size, output_feature_size,
     bits_to_write = (1.0 * output_feature_size) * entropy_out
     bits_to_read = (1.0 * input_feature_size) * entropy_in
     design_energy = (1.0 * design_power) / fpga_frequency * calculation_clocks
-    transfer_read_energy = (1.0 * ddr_power_read_per_16bit ) * (1.0 * bits_to_transfer / 16) * 4 / ddr_datarate
-    transfer_write_energy = (1.0 * ddr_power_write_per_16bit ) * (1.0 * bits_to_transfer / 16) * 4 / ddr_datarate
+    transfer_read_energy = (1.0 * ddr_power_read_per_16bit ) * (1.0 * bits_to_read / 16) * 4 / ddr_datarate
+    transfer_write_energy = (1.0 * ddr_power_write_per_16bit ) * (1.0 * bits_to_write / 16) * 4 / ddr_datarate
     print("")
     print("Total energy: {:.3E}[J]".format((design_energy + transfer_read_energy + transfer_write_energy)))
     print("Design energy: {:.3E}[J]".format(design_energy))
