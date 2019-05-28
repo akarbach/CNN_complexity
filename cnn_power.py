@@ -13,13 +13,13 @@ def calc_power(entropy_in, entropy_out, input_feature_size, output_feature_size,
     design_energy = (1.0 * design_power) / fpga_frequency * calculation_clocks
     transfer_read_energy = (1.0 * ddr_power_read_per_16bit ) * (1.0 * bits_to_read / 16) * 4 / ddr_datarate
     transfer_write_energy = (1.0 * ddr_power_write_per_16bit ) * (1.0 * bits_to_write / 16) * 4 / ddr_datarate
-    print("")
-    print("Total energy: {:.3E}[J]".format((design_energy + transfer_read_energy + transfer_write_energy)))
-    print("Design energy: {:.3E}[J]".format(design_energy))
-    print("Transfer energy: {:.3E}[J]".format(transfer_write_energy + transfer_read_energy))
-    print("Transfer read energy {:.3E}[J], Transfer write energy {:.3E}[J]".format(transfer_read_energy, transfer_write_energy))
+    #print("")
+    #print("Total energy: {:.3E}[J]".format((design_energy + transfer_read_energy + transfer_write_energy)))
+    #print("Design energy: {:.3E}[J]".format(design_energy))
+    #print("Transfer energy: {:.3E}[J]".format(transfer_write_energy + transfer_read_energy))
+    #print("Transfer read energy {:.3E}[J], Transfer write energy {:.3E}[J]".format(transfer_read_energy, transfer_write_energy))
 
-    return design_energy, transfer_read_energy, transfer_write_energy
+    return transfer_read_energy + transfer_write_energy
 
 def batch_calc_power(param_file):
     f = open(param_file)
@@ -28,7 +28,7 @@ def batch_calc_power(param_file):
         params = str.split(line, ',')
         result.append(calc_power(*list(map(float, params))))
 
-    # print(result)
+    print(result)
 
 def calc_work():
     conv1 = 112*112*64
